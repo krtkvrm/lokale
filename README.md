@@ -33,3 +33,14 @@ Lokale is platform to manage these copies on the fly and supports conditionals a
 - Agent will periodically sync i18n copes against its namespace from Lokale Service
 - It will be deployed in proximity to the client which will use it, say in VM as separate service or in Pod, in different container
 - The application request the copies from this agent, via REST or gRPC.
+
+
+## To be decided
+- Which transport to use for sync?
+    - short http polling
+    - long http polling
+    - grpc streaming
+    - websockets
+- What should be the duration of period and how should this be configured?
+- What should be the behaviour when sync is not active ?
+- Should agents store config sync in-memory or embedded db + in-memory 
