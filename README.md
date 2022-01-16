@@ -30,17 +30,32 @@ Lokale is platform to manage these copies on the fly and supports conditionals a
 
 ### Lokale Agent
 
-- Agent will periodically sync i18n copes against its namespace from Lokale Service
+- Agent will connect to Service's Websocket Server via wss protocol. This connection will be used by Server to send updated configs for Lokale.
 - It will be deployed in proximity to the client which will use it, say in VM as separate service or in Pod, in different container
-- The application request the copies from this agent, via REST or gRPC.
+
+### Sync between Service and Agent
+#### Approach 1: Websocket Server will periodically check for configs updated for a namespace
+
+<p align="center">
+  <img src="docs/images/sync_approach_2_v.0.1.png" alt="drawing" width="90%"/>
+</p>
+
+#### Approach 2: Update Event will be used to send updated configs to agent
+<p align="center">
+  <img src="docs/images/sync_approach_1_v.0.1.png" alt="drawing" width="90%"/>
+</p>
 
 
-## To be decided
-- Which transport to use for sync?
-    - short http polling
-    - long http polling
-    - grpc streaming
-    - websockets
-- What should be the duration of period and how should this be configured?
-- What should be the behaviour when sync is not active ?
-- Should agents store config sync in-memory or embedded db + in-memory 
+
+<details open>
+  <summary><b>To be decided</b></summary>
+
+    1. [DONE] Which transport to use for sync?
+        - short http polling
+        - grpc streaming
+        - websockets
+       Decision: Websockets, as short polling can be resource intensive if periodicity is less and gRPC streaming has support issues with k8s ingress
+    2. What should be the duration of period and how should this be configured?
+    3. What should be the behaviour when sync is not active ?
+    4. Should agents store config sync in-memory or embedded db + in-memory 
+</details>
